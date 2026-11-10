@@ -21,9 +21,9 @@ The 0.80 sensitivity target is an exploratory analysis choice, not a clinically 
 
 The threshold rule reaches the requested sensitivity on average, at the cost of very low specificity. This would create many false positive flags in a screening setting. The DMI model's Brier score is slightly worse than the majority reference (0.242) from the first baseline. Mean calibration-in-the-large is close to zero, but the four-bin error and low discrimination show that the probabilities are not reliable enough for use as individual risk estimates.
 
-## Interpretation and next step
+## Interpretation
 
-Fold SDs describe variation across overlapping resamples; they are not confidence intervals. The 0.80 target itself needs clinical stakeholder input before it could guide a real screening policy. The current dataset is cross-sectional and has no participant ID, and no independent cohort has been tested. This analysis supports stopping short of deployment claims. The next research milestone is to locate an independent cohort with baseline MRI and later cognitive assessment, verify its access terms and label timing, then define a held-out validation plan before training a future-outcome model.
+Fold SDs describe variation across overlapping resamples; they are not confidence intervals. The 0.80 target itself needs clinical stakeholder input before it could guide a real screening policy. The current dataset is cross-sectional and has no participant ID, and no independent cohort has been tested. This analysis supports stopping short of deployment claims. Candidate longitudinal cohorts and their access constraints are documented in [`longitudinal-cohort-review.md`](longitudinal-cohort-review.md).
 
 ## Reproduce
 

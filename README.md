@@ -30,3 +30,5 @@ The completed source and workbook findings are summarized in [`reports/dataset-a
 The first baseline protocol and aggregate results are in [`reports/screening-baseline.md`](reports/screening-baseline.md). To reproduce it locally, install `requirements-model.txt` and run `python scripts/train_screening_baseline.py`.
 
 The sensitivity-targeted threshold and calibration analysis is documented in [`reports/threshold-calibration.md`](reports/threshold-calibration.md). It uses nested cross-validation so each evaluated fold is held out from threshold selection.
+
+The candidate follow-up cohort and access review is in [`reports/longitudinal-cohort-review.md`](reports/longitudinal-cohort-review.md). No additional cohort data have been downloaded or added.
