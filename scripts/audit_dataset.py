@@ -80,11 +80,68 @@ def audit_sheet(sheet: Any) -> dict[str, Any]:
 
     populated_records = [row for row in padded if any(not is_empty(v) for v in row)]
     duplicate_rows = len(populated_records) - len({tuple(map(str, row)) for row in populated_records})
-    return {
+    report = {
         "sheet": sheet.title,
         "data_rows": len(populated_records),
         "columns": fields,
         "duplicate_full_rows": duplicate_rows,
+    }
+    group_index = next((i for i, name in enumerate(headers)
+                        if normalized(name) in {"group", "cohort"}), None)
+    moca_index = next((i for i, name in enumerate(headers)
+                       if "moca" in normalized(name)), None)
+    if group_index is not None and moca_index is not None:
+        grouped = {}
+        for row in populated_records:
+            group = str(row[group_index]) if not is_empty(row[group_index]) else "missing"
+            moca = row[moca_index]
+            bucket = grouped.setdefault(group, {"moca_below_26": 0,
+                                                "moca_26_or_higher": 0,
+                                                "moca_missing_or_non_numeric": 0})
+            if is_empty(moca) or not isinstance(moca, (int, float)):
+                bucket["moca_missing_or_non_numeric"] += 1
+            elif float(moca) < 26:
+                bucket["moca_below_26"] += 1
+            else:
+                bucket["moca_26_or_higher"] += 1
+        report["moca_threshold_by_group"] = grouped
+    return report
+
+
+def compare_with_combined(sheet: Any, combined: Any) -> dict[str, Any]:
+    def table(source: Any) -> tuple[list[str], list[tuple[Any, ...]]]:
+        rows = [tuple(row) for row in source.iter_rows(values_only=True)]
+        populated = [row for row in rows if any(not is_empty(value) for value in row)]
+        if not populated:
+            return [], []
+        headers = [str(value).strip() if not is_empty(value) else f"unnamed_{i + 1}"
+                   for i, value in enumerate(populated[0])]
+        records = [tuple(row) + (None,) * (len(headers) - len(row))
+                   for row in populated[1:]]
+        return headers, records
+
+    source_headers, source_rows = table(sheet)
+    combined_headers, combined_rows = table(combined)
+    combined_index = {name: index for index, name in enumerate(combined_headers)}
+    common = [(index, combined_index[name], name)
+              for index, name in enumerate(source_headers) if name in combined_index]
+    compared_rows = min(len(source_rows), len(combined_rows))
+    mismatch_count = 0
+    for row_index in range(compared_rows):
+        for source_index, combined_col, _ in common:
+            left = source_rows[row_index][source_index]
+            right = combined_rows[row_index][combined_col]
+            if is_empty(left) and is_empty(right):
+                continue
+            if left != right:
+                mismatch_count += 1
+    return {
+        "sheet": sheet.title,
+        "source_rows": len(source_rows),
+        "combined_rows": len(combined_rows),
+        "shared_columns": len(common),
+        "cell_comparisons": compared_rows * len(common),
+        "mismatched_cells": mismatch_count,
     }
 
 
@@ -107,6 +164,10 @@ def main() -> None:
         "file_size_bytes": args.workbook.stat().st_size,
         "sha256": sha256(args.workbook),
         "sheets": [audit_sheet(sheet) for sheet in workbook.worksheets],
+        "source_to_combined": [
+            compare_with_combined(sheet, workbook["Combined"])
+            for sheet in workbook.worksheets if sheet.title != "Combined"
+        ] if "Combined" in workbook.sheetnames else [],
         "privacy_note": "Aggregate schema/statistics only; no participant-level values are written.",
     }
     workbook.close()

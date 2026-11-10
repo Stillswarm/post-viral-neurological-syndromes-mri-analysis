@@ -22,3 +22,5 @@ The project explores how brain MRI features, combined with clinical and cognitiv
 ## Data audit
 
 The candidate Dryad dataset and local audit instructions are documented in [`data/README.md`](data/README.md). Download the workbook through Dryad and run the schema audit locally; the participant-level workbook is excluded from version control.
+
+The completed source and workbook findings are summarized in [`reports/dataset-audit.md`](reports/dataset-audit.md).
