@@ -1,0 +1,18 @@
+# Early Diagnosis and Cognitive Outcome Prediction of Post-Viral Neurological Syndromes Using Brain MRI Analysis
+
+This repository contains the project presentation and supporting material for a proposed MRI-based research workflow for early identification of post-viral neurological changes and prediction of later cognitive outcomes.
+
+## Project contents
+
+- `presentation/post_viral_mri_research_template_final.pptx` — final presentation.
+
+The presentation covers the motivation, literature survey, recent research progress, research gap, objectives, proposed technical workflow, candidate training data sources, iteration and evaluation plan, conclusion, and references. It presents a research proposal; it does not report a clinically validated diagnostic system or completed model results.
+
+## Project team
+
+- **Researchers:** Abhinav Kr Srivastava (2023UG1070), Aishwary Dixit (2023UG1049)
+- **Faculty advisor:** Dr. Dhiran Kumar Mahto
+
+## Topic
+
+The project explores how brain MRI features, combined with clinical and cognitive assessment data, could support early risk estimation and follow-up planning for post-viral neurological syndromes. Any future model would require appropriate clinical validation before use in care.
