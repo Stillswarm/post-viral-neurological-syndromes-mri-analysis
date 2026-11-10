@@ -5,6 +5,8 @@ This repository contains the project presentation and supporting material for a 
 ## Project contents
 
 - `presentation/post_viral_mri_research_template_final.pptx` — final presentation.
+- `data/README.md` — candidate dataset provenance and audit status.
+- `scripts/audit_dataset.py` — local, aggregate-only workbook audit; participant data remain local.
 
 The presentation covers the motivation, literature survey, recent research progress, research gap, objectives, proposed technical workflow, candidate training data sources, iteration and evaluation plan, conclusion, and references. It presents a research proposal; it does not report a clinically validated diagnostic system or completed model results.
 
@@ -16,3 +18,7 @@ The presentation covers the motivation, literature survey, recent research progr
 ## Topic
 
 The project explores how brain MRI features, combined with clinical and cognitive assessment data, could support early risk estimation and follow-up planning for post-viral neurological syndromes. Any future model would require appropriate clinical validation before use in care.
+
+## Data audit
+
+The candidate Dryad dataset and local audit instructions are documented in [`data/README.md`](data/README.md). Download the workbook through Dryad and run the schema audit locally; the participant-level workbook is excluded from version control.

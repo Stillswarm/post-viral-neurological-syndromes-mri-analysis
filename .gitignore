@@ -1,0 +1,11 @@
+# Participant-level data must remain local and must never be committed.
+/data/raw/
+/data/processed/
+
+# Machine-generated audit output can contain dataset schema details.
+/reports/generated/
+
+# Python local environments and caches.
+.venv/
+__pycache__/
+*.py[cod]
